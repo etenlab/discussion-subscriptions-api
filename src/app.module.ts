@@ -5,7 +5,9 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PubSubModule } from './pubSub.module';
-import { NotificationsModule } from './posts/notifications.module';
+import { DiscussionsModule } from './discussions/discussions.module';
+import { PostsModule } from './posts/posts.module';
+import { ReactionsModule } from './reactions/reactions.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -34,7 +36,9 @@ dotenv.config();
       synchronize: true,
     }),
     PubSubModule,
-    NotificationsModule,
+    DiscussionsModule,
+    PostsModule,
+    ReactionsModule,
   ],
 })
 export class AppModule {}

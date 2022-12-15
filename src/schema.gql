@@ -16,26 +16,16 @@ type Discussion {
   table_name: String!
 }
 
-type Mutation {
-  acknowledgedNotification(id: Int!): Int!
-  deleteNotification(id: Int!): Int!
-  deleteNotificationsByUserId(userId: Int!): Boolean!
-  setAcknowledgedNotificationsByUserId(userId: Int!): Boolean!
-}
-
-type Notification {
-  acknowledged: Boolean!
-  content: String!
-  created_at: DateTime!
+type File {
+  filename: String!
   id: Int!
-  row: Int!
-  table_name: String!
-  user_id: Int!
+  url: String!
 }
 
 type Post {
   created_at: DateTime!
   discussion: Discussion!
+  files: [RelationshipPostFile]!
   id: Int!
   plain_text: String!
   postgres_language: String!
@@ -45,7 +35,7 @@ type Post {
 }
 
 type Query {
-  notifications(userId: Int!): [Notification!]!
+  hello: String!
 }
 
 type Reaction {
@@ -55,6 +45,15 @@ type Reaction {
   user_id: Int!
 }
 
+type RelationshipPostFile {
+  file: File!
+  id: Int!
+}
+
 type Subscription {
-  notificationAdded(userId: Int!): Notification!
+  discussionCreated(row: Int!, table_name: String!): Discussion!
+  postCreated(discussionId: Int!): Post!
+  postDeleted(discussionId: Int!): Int!
+  reactionCreated(discussionId: Int!): Reaction!
+  reactionDeleted(discussionId: Int!): Int!
 }

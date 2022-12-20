@@ -24,7 +24,7 @@ type File {
 
 type Post {
   created_at: DateTime!
-  discussion: Discussion!
+  discussion_id: Int!
   files: [RelationshipPostFile]!
   id: Int!
   plain_text: String!
@@ -41,7 +41,7 @@ type Query {
 type Reaction {
   content: String!
   id: Int!
-  post: Post!
+  post_id: Int!
   user_id: Int!
 }
 

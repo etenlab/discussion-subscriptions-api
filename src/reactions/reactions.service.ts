@@ -24,7 +24,7 @@ export class ReactionsService {
       return;
     }
 
-    const reaction = await this.reactionsRepository.findOneOrFail({
+    const reaction = await this.reactionsRepository.findOne({
       relations: ["post", "post.discussion"],
       where: { id: record.id },
     });
@@ -43,8 +43,8 @@ export class ReactionsService {
       return;
     }
 
-    const post = await this.postsRepository.findOneOrFail({
-      where: { id: record.id },
+    const post = await this.postsRepository.findOne({
+      where: { id: record.post_id },
     });
 
     if (!post) {

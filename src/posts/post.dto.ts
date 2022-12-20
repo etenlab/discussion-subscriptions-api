@@ -1,6 +1,6 @@
-import { IsDate, IsNumber, IsString } from 'class-validator';
-import { Transform } from 'class-transformer';
-import { PayloadDto } from '../payload.dto';
+import { IsDate, IsNumber, IsString } from "class-validator";
+import { Transform } from "class-transformer";
+import { PayloadDto } from "../payload.dto";
 
 class Post {
   @IsNumber()

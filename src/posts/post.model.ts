@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from "@nestjs/graphql";
 import {
   Column,
   Entity,
@@ -7,10 +7,10 @@ import {
   JoinColumn,
   CreateDateColumn,
   OneToMany,
-} from 'typeorm';
-import { Discussion } from 'src/discussions/discussion.model';
-import { Reaction } from 'src/reactions/reaction.model';
-import { RelationshipPostFile } from './relationship-post-file.model';
+} from "typeorm";
+import { Discussion } from "src/discussions/discussion.model";
+import { Reaction } from "src/reactions/reaction.model";
+import { RelationshipPostFile } from "./relationship-post-file.model";
 
 @Entity(`posts`, {
   schema: `admin`,
@@ -24,19 +24,19 @@ export class Post {
   @Field(() => Discussion)
   @ManyToOne(() => Discussion, (discussion) => discussion.id, {
     nullable: false,
-    onDelete: 'CASCADE',
+    onDelete: "CASCADE",
   })
-  @JoinColumn({ name: 'discussion_id' })
+  @JoinColumn({ name: "discussion_id" })
   discussion: Discussion;
 
-  @Field(() => [Reaction], { nullable: 'items' })
+  @Field(() => [Reaction], { nullable: "items" })
   @OneToMany(() => Reaction, (reaction) => reaction.post)
   reactions: Reaction[];
 
-  @Field(() => [RelationshipPostFile], { nullable: 'items' })
+  @Field(() => [RelationshipPostFile], { nullable: "items" })
   @OneToMany(
     () => RelationshipPostFile,
-    (relationshipPostFile) => relationshipPostFile.post,
+    (relationshipPostFile) => relationshipPostFile.post
   )
   files: RelationshipPostFile[];
 
@@ -56,7 +56,7 @@ export class Post {
   plain_text: string;
 
   @Column()
-  @Field(() => String, { nullable: false, defaultValue: 'simple' })
+  @Field(() => String, { nullable: false, defaultValue: "simple" })
   postgres_language: string;
 
   @CreateDateColumn()

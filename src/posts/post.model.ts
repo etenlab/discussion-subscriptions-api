@@ -21,7 +21,6 @@ export class Post {
   @Field(() => Int)
   id: number;
 
-  @Field(() => Discussion)
   @ManyToOne(() => Discussion, (discussion) => discussion.id, {
     nullable: false,
     onDelete: "CASCADE",
@@ -41,6 +40,7 @@ export class Post {
   files: RelationshipPostFile[];
 
   @Column()
+  @Field(() => Int)
   discussion_id: number;
 
   @Column()

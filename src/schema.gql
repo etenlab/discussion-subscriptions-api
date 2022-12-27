@@ -17,9 +17,11 @@ type Discussion {
 }
 
 type File {
-  filename: String!
+  file_name: String!
+  file_size: Int!
+  file_type: String!
+  file_url: String!
   id: Int!
-  url: String!
 }
 
 type Post {
@@ -54,6 +56,7 @@ type Subscription {
   discussionCreated(row: Int!, table_name: String!): Discussion!
   postCreated(discussionId: Int!): Post!
   postDeleted(discussionId: Int!): Int!
+  postUpdated(discussionId: Int!): Post!
   reactionCreated(discussionId: Int!): Reaction!
   reactionDeleted(discussionId: Int!): Int!
 }

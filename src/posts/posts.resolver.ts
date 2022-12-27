@@ -29,6 +29,19 @@ export class PostsResolver {
     return this.pubSub.asyncIterator(Token.PostCreated);
   }
 
+  @Subscription(() => Post, {
+    name: Token.PostUpdated,
+    filter: (payload, variables) => {
+      return payload.discussion_id === variables.discussionId;
+    },
+    resolve: (payload) => payload,
+  })
+  async subscribePostUpdated(
+    @Args("discussionId", { type: () => Int }) _discussionId: number
+  ) {
+    return this.pubSub.asyncIterator(Token.PostUpdated);
+  }
+
   @Subscription(() => Int, {
     name: Token.PostDeleted,
     filter: (payload, variables) => {

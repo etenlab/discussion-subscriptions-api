@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int } from "@nestjs/graphql";
 import {
   Column,
   Entity,
@@ -6,9 +6,9 @@ import {
   OneToOne,
   ManyToOne,
   JoinColumn,
-} from 'typeorm';
-import { File } from './file.model';
-import { Post } from './post.model';
+} from "typeorm";
+import { File } from "./file.model";
+import { Post } from "./post.model";
 
 @Entity(`relationship_post_file`, {
   schema: `admin`,
@@ -24,9 +24,9 @@ export class RelationshipPostFile {
 
   @ManyToOne(() => Post, (post) => post.id, {
     nullable: false,
-    onDelete: 'CASCADE',
+    onDelete: "CASCADE",
   })
-  @JoinColumn({ name: 'post_id' })
+  @JoinColumn({ name: "post_id" })
   post: Post;
 
   @Column()
@@ -35,7 +35,7 @@ export class RelationshipPostFile {
   @Field(() => File)
   @OneToOne(() => File, (file) => file.id)
   @JoinColumn({
-    name: 'file_id',
+    name: "file_id",
   })
   file: File;
 }

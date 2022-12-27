@@ -1,15 +1,15 @@
-import { Module } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { PgNotifyClient } from 'nestjs-pg-notify';
-import { PostsResolver } from './posts.resolver';
-import { PostsController } from './posts.controller';
-import { PostsService } from './posts.service';
-import { Post } from './post.model';
-import { RelationshipPostFile } from './relationship-post-file.model';
-import { File } from './file.model';
-import { Token } from '../token';
-import * as dotenv from 'dotenv';
+import { Module } from "@nestjs/common";
+import { ClientProxy } from "@nestjs/microservices";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { PgNotifyClient } from "nestjs-pg-notify";
+import { PostsResolver } from "./posts.resolver";
+import { PostsController } from "./posts.controller";
+import { PostsService } from "./posts.service";
+import { Post } from "./post.model";
+import { RelationshipPostFile } from "./relationship-post-file.model";
+import { File } from "./file.model";
+import { Token } from "../token";
+import * as dotenv from "dotenv";
 dotenv.config();
 
 @Module({

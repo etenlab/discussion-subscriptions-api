@@ -15,6 +15,7 @@ import { PostsService } from "./posts.service";
 import { PubSub } from "graphql-subscriptions";
 import { PUB_SUB } from "src/pubSub.module";
 import { PostDto } from "./post.dto";
+import { RelationshipPostFileDto } from "./relationship-post-file.dto";
 
 @Controller()
 @UseFilters(ExceptionFilter)
@@ -38,12 +39,32 @@ export class PostsController {
         this.pubSub.publish(Token.PostCreated, post);
         break;
       }
+      case "UPDATE": {
+        const post = await this.postsService.findPost(payload);
+        this.pubSub.publish(Token.PostUpdated, post);
+        break;
+      }
       case "DELETE": {
         this.pubSub.publish(Token.PostDeleted, payload);
         break;
       }
       default: {
         break;
+      }
+    }
+  }
+
+  @PgNotifyEventPattern("relationship_post_file_deleted")
+  @UsePipes(new ValidationPipe({ transform: true }))
+  async onRelationshipPostFileDeleted(
+    @Payload() payload: RelationshipPostFileDto
+  ): Promise<void> {
+    const { operation, record } = payload;
+
+    switch (operation) {
+      case "DELETE": {
+        const post = await this.postsService.findPostById(record.post_id);
+        this.pubSub.publish(Token.PostUpdated, post);
       }
     }
   }

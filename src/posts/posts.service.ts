@@ -17,7 +17,7 @@ export class PostsService {
   async findPost(payload: PostDto): Promise<Post> {
     const { operation, record } = payload;
 
-    if (operation !== "INSERT") {
+    if (operation === "DELETE") {
       return;
     }
 
@@ -28,6 +28,19 @@ export class PostsService {
 
     if (!post) {
       throw new NotFoundException(`Post #${record.id} not found`);
+    }
+
+    return post;
+  }
+
+  async findPostById(post_id: number): Promise<Post> {
+    const post = await this.postRepository.findOneOrFail({
+      relations: ["reactions", "files", "files.file", "discussion"],
+      where: { id: post_id },
+    });
+
+    if (!post) {
+      throw new NotFoundException(`Post #${post_id} not found`);
     }
 
     return post;

@@ -22,7 +22,16 @@ export class PostsService {
     }
 
     const post = await this.postRepository.findOneOrFail({
-      relations: ['user', 'reactions', 'reactions.user', 'files', 'files.file'],
+      relations: [
+        'files',
+        'files.file',
+        'reply',
+        'reply.user',
+        'reply.files',
+        'user',
+        'reactions',
+        'reactions.user',
+      ],
       where: { id: record.id },
     });
 
@@ -35,7 +44,16 @@ export class PostsService {
 
   async findPostById(post_id: number): Promise<Post> {
     const post = await this.postRepository.findOneOrFail({
-      relations: ['user', 'reactions', 'reactions.user', 'files', 'files.file'],
+      relations: [
+        'files',
+        'files.file',
+        'reply',
+        'reply.user',
+        'reply.files',
+        'user',
+        'reactions',
+        'reactions.user',
+      ],
       where: { id: post_id },
     });
 

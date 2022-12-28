@@ -29,10 +29,13 @@ type Post {
   discussion_id: Int!
   files: [RelationshipPostFile]!
   id: Int!
+  is_edited: Boolean!
   plain_text: String!
   postgres_language: String!
   quill_text: String!
   reactions: [Reaction]!
+  reply: Post
+  reply_id: Int
   user: User!
   user_id: Int!
 }

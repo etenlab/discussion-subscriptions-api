@@ -1,6 +1,6 @@
-import { IsDate, IsNumber, IsString } from "class-validator";
-import { Transform } from "class-transformer";
-import { PayloadDto } from "../payload.dto";
+import { IsDate, IsNumber, IsString, IsBoolean } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { PayloadDto } from '../payload.dto';
 
 class Post {
   @IsNumber()
@@ -20,6 +20,12 @@ class Post {
 
   @IsString()
   postgres_language: string;
+
+  @IsBoolean()
+  is_edited: boolean;
+
+  @IsNumber()
+  reply_id: number;
 
   @IsDate()
   @Transform((params) => new Date(params.value))

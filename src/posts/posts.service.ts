@@ -1,15 +1,15 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-import { PostDto } from "./post.dto";
-import { Post } from "./post.model";
+import { PostDto } from './post.dto';
+import { Post } from './post.model';
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectRepository(Post)
-    private postRepository: Repository<Post>
+    private postRepository: Repository<Post>,
   ) {}
 
   // Whenever we found changes in Discussion Table, this function is called by conroller,
@@ -17,12 +17,12 @@ export class PostsService {
   async findPost(payload: PostDto): Promise<Post> {
     const { operation, record } = payload;
 
-    if (operation === "DELETE") {
+    if (operation === 'DELETE') {
       return;
     }
 
     const post = await this.postRepository.findOneOrFail({
-      relations: ["reactions", "files", "files.file", "discussion"],
+      relations: ['user', 'reactions', 'reactions.user', 'files', 'files.file'],
       where: { id: record.id },
     });
 
@@ -35,7 +35,7 @@ export class PostsService {
 
   async findPostById(post_id: number): Promise<Post> {
     const post = await this.postRepository.findOneOrFail({
-      relations: ["reactions", "files", "files.file", "discussion"],
+      relations: ['user', 'reactions', 'reactions.user', 'files', 'files.file'],
       where: { id: post_id },
     });
 

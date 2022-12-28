@@ -33,6 +33,7 @@ type Post {
   postgres_language: String!
   quill_text: String!
   reactions: [Reaction]!
+  user: User!
   user_id: Int!
 }
 
@@ -44,6 +45,7 @@ type Reaction {
   content: String!
   id: Int!
   post_id: Int!
+  user: User!
   user_id: Int!
 }
 
@@ -59,4 +61,13 @@ type Subscription {
   postUpdated(discussionId: Int!): Post!
   reactionCreated(discussionId: Int!): Reaction!
   reactionDeleted(discussionId: Int!): Int!
+}
+
+type User {
+  active: Boolean!
+  created_at: DateTime!
+  email: String!
+  is_email_verified: Boolean!
+  user_id: Int!
+  username: String!
 }

@@ -24,7 +24,9 @@ export class DiscussionsService {
     const discussion = await this.discussionRepository.findOne({
       relations: [
         'posts',
+        'posts.user',
         'posts.reactions',
+        'posts.reactions.user',
         'posts.files',
         'posts.files.file',
       ],

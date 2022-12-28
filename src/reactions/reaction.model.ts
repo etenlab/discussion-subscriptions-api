@@ -1,16 +1,19 @@
-import { Field, Int, ObjectType } from "@nestjs/graphql";
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
-} from "typeorm";
-import { Post } from "src/posts/post.model";
+  Unique,
+} from 'typeorm';
+import { Post } from 'src/posts/post.model';
+import { User } from 'src/users/user.model';
 
 @Entity(`reactions`, {
   schema: `admin`,
 })
+@Unique(['user_id', 'content', 'post_id'])
 @ObjectType()
 export class Reaction {
   @PrimaryGeneratedColumn()
@@ -19,9 +22,9 @@ export class Reaction {
 
   @ManyToOne(() => Post, (post) => post.id, {
     nullable: false,
-    onDelete: "CASCADE",
+    onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: "post_id" })
+  @JoinColumn({ name: 'post_id' })
   post: Post;
 
   @Field(() => Int)
@@ -31,6 +34,16 @@ export class Reaction {
   @Column()
   @Field(() => Int)
   user_id: number;
+
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.user_id, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({
+    name: 'user_id',
+  })
+  user: User;
 
   @Column()
   @Field(() => String)

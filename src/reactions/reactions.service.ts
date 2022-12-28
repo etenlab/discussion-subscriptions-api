@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-import { ReactionDto, DeletedReaction } from "./reaction.dto";
-import { Reaction } from "./reaction.model";
-import { Post } from "../posts/post.model";
+import { ReactionDto, DeletedReaction } from './reaction.dto';
+import { Reaction } from './reaction.model';
+import { Post } from '../posts/post.model';
 
 @Injectable()
 export class ReactionsService {
@@ -12,7 +12,7 @@ export class ReactionsService {
     @InjectRepository(Reaction)
     private reactionsRepository: Repository<Reaction>,
     @InjectRepository(Post)
-    private postsRepository: Repository<Post>
+    private postsRepository: Repository<Post>,
   ) {}
 
   // Whenever we found changes in Discussion Table, this function is called by conroller,
@@ -20,12 +20,12 @@ export class ReactionsService {
   async findReaction(payload: ReactionDto): Promise<Reaction> {
     const { operation, record } = payload;
 
-    if (operation !== "INSERT") {
+    if (operation !== 'INSERT') {
       return;
     }
 
     const reaction = await this.reactionsRepository.findOne({
-      relations: ["post", "post.discussion"],
+      relations: ['user', 'post', 'post.discussion'],
       where: { id: record.id },
     });
 
@@ -39,7 +39,7 @@ export class ReactionsService {
   async findDiscussion(payload: ReactionDto): Promise<DeletedReaction> {
     const { operation, record } = payload;
 
-    if (operation !== "DELETE") {
+    if (operation !== 'DELETE') {
       return;
     }
 

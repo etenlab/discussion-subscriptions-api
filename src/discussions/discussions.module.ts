@@ -3,6 +3,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PgNotifyClient } from 'nestjs-pg-notify';
 import { Discussion } from './discussion.model';
+import { User } from '../users/user.model';
 import { DiscussionsResolver } from './discussions.resolver';
 import { DiscussionsController } from './discussions.controller';
 import { DiscussionsService } from './discussions.service';
@@ -11,7 +12,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Discussion])],
+  imports: [TypeOrmModule.forFeature([Discussion, User])],
   controllers: [DiscussionsController],
   providers: [
     {

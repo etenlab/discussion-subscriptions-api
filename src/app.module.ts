@@ -8,6 +8,7 @@ import { PubSubModule } from './pubSub.module';
 import { DiscussionsModule } from './discussions/discussions.module';
 import { PostsModule } from './posts/posts.module';
 import { ReactionsModule } from './reactions/reactions.module';
+import { CoreModule } from './core/core.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -39,6 +40,7 @@ dotenv.config();
     DiscussionsModule,
     PostsModule,
     ReactionsModule,
+    CoreModule,
   ],
 })
 export class AppModule {}

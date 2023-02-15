@@ -7,8 +7,10 @@ WORKDIR /usr/src/etenlab/discussion-subscriptions-api
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json ./
-RUN npm install
+COPY tsconfig*.json ./
 COPY . .
 
-EXPOSE 8112
+RUN npm ci --legacy-peer-deps
+RUN npm run build
+
 CMD [ "npm", "run", "start:prod" ]

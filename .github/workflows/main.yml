@@ -1,5 +1,8 @@
 name: Build, Dockerize, Upload
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   package:
@@ -9,19 +12,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
-      # - name: Prepare Node 16
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 16
-
-      # - name: Install dependencies
-      #   run: npm install --legacy-peer-deps
-
-      # - name: Install Nest
-      #   run: npm i -g @nestjs/cli
-
-      # - name: Build
-      #   run: nest build
+      - name: Dockerize
+        run: docker build -t etenlab/discussion-subscriptions-api .
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -29,9 +21,6 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_GITHUB_S3_PUSHER_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_GITHUB_S3_PUSHER_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
-
-      - name: Dockerize
-        run: docker build -t etenlab/discussion-subscriptions-api .
 
       - name: Log in to Docker Hub
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
@@ -59,3 +48,16 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_GITHUB_S3_PUSHER_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_GITHUB_S3_PUSHER_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition graphApi \
+          --query taskDefinition > task-definition.json
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          service: discussionSubApi
+          cluster: dev-cluster
+          wait-for-service-stability: true

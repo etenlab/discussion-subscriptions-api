@@ -51,13 +51,13 @@ jobs:
 
       - name: Download task definition
         run: |
-          aws ecs describe-task-definition --task-definition graphApi \
+          aws ecs describe-task-definition --task-definition discussionSubApi \
           --query taskDefinition > task-definition.json
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: task-definition.json
-          service: discussionSubApi
+          service: discussionSubApiService
           cluster: dev-cluster
           wait-for-service-stability: true

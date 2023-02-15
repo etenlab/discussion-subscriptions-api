@@ -10,6 +10,7 @@ import { PostsModule } from './posts/posts.module';
 import { ReactionsModule } from './reactions/reactions.module';
 import { CoreModule } from './core/core.module';
 import * as dotenv from 'dotenv';
+import { AppController } from './app.controller';
 dotenv.config();
 
 @Module({
@@ -42,5 +43,6 @@ dotenv.config();
     ReactionsModule,
     CoreModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}

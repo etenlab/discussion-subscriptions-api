@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PgNotifyClient } from 'nestjs-pg-notify';
 import { Discussion } from './discussion.model';
 import { User } from '../users/user.model';
+import { Organization } from '../organization/organizations.model';
+import { AppList } from '../app-list/app-list.model';
 import { DiscussionsResolver } from './discussions.resolver';
 import { DiscussionsController } from './discussions.controller';
 import { DiscussionsService } from './discussions.service';
@@ -12,7 +14,9 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Discussion, User])],
+  imports: [
+    TypeOrmModule.forFeature([Discussion, User, Organization, AppList]),
+  ],
   controllers: [DiscussionsController],
   providers: [
     {

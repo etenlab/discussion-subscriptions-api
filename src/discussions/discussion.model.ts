@@ -1,6 +1,15 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Post } from '../posts/post.model';
+import { AppList } from '../app-list/app-list.model';
+import { Organization } from '../organization/organizations.model';
 
 @Entity(`discussions`, {
   schema: 'admin',
@@ -12,11 +21,9 @@ export class Discussion {
   id: number;
 
   @Column({ default: 0 })
-  @Field(() => Int)
   app: number;
 
   @Column({ default: 0 })
-  @Field(() => Int)
   org: number;
 
   @Column()
@@ -30,4 +37,24 @@ export class Discussion {
   @Field(() => [Post], { nullable: 'items' })
   @OneToMany(() => Post, (post) => post.discussion)
   posts: Post[];
+
+  @Field(() => AppList)
+  @OneToOne(() => AppList, (appList) => appList.id, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({
+    name: 'app',
+  })
+  appList: AppList;
+
+  @Field(() => Organization)
+  @OneToOne(() => Organization, (organization) => organization.id, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({
+    name: 'org',
+  })
+  organization: Organization;
 }

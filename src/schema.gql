@@ -2,15 +2,20 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AppList {
+  app_name: String!
+  id: Int!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
 
 type Discussion {
-  app: Int!
+  appList: AppList!
   id: Int!
-  org: Int!
+  organization: Organization!
   posts: [Post]!
   row: Int!
   table_name: String!
@@ -22,6 +27,11 @@ type File {
   file_type: String!
   file_url: String!
   id: Int!
+}
+
+type Organization {
+  id: Int!
+  name: String!
 }
 
 type Post {

@@ -1,10 +1,10 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Directive, Field, Int, ObjectType } from '@nestjs/graphql';
 import {
   Column,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  OneToOne,
+  ManyToOne,
   JoinColumn,
 } from 'typeorm';
 import { Post } from '../posts/post.model';
@@ -15,6 +15,7 @@ import { Organization } from '../organization/organizations.model';
   schema: 'admin',
 })
 @ObjectType()
+@Directive('@key(fields: "id")')
 export class Discussion {
   @PrimaryGeneratedColumn()
   @Field(() => Int)
@@ -39,7 +40,7 @@ export class Discussion {
   posts: Post[];
 
   @Field(() => AppList)
-  @OneToOne(() => AppList, (appList) => appList.id, {
+  @ManyToOne(() => AppList, (appList) => appList.id, {
     nullable: false,
     onDelete: 'CASCADE',
   })
@@ -49,7 +50,7 @@ export class Discussion {
   appList: AppList;
 
   @Field(() => Organization)
-  @OneToOne(() => Organization, (organization) => organization.id, {
+  @ManyToOne(() => Organization, (organization) => organization.id, {
     nullable: false,
     onDelete: 'CASCADE',
   })
